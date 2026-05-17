@@ -34,11 +34,12 @@ def create_app() -> FastAPI:
         lifespan=lifespan,
     )
 
-    # Register routers (built in Phase 5)
-    # from app.api.routes.ingest import router as ingest_router
-    # from app.api.routes.query import router as query_router
-    # app.include_router(ingest_router, prefix="/api/v1", tags=["ingest"])
-    # app.include_router(query_router,  prefix="/api/v1", tags=["query"])
+    from app.api.routes.ingest import router as ingest_router
+    from app.api.routes.query import router as query_router
+    from app.api.routes.users import router as users_router
+    app.include_router(users_router, prefix="/api/v1", tags=["users"])
+    app.include_router(ingest_router, prefix="/api/v1", tags=["ingest"])
+    app.include_router(query_router,  prefix="/api/v1", tags=["query"])
 
     @app.get("/health")
     async def health():

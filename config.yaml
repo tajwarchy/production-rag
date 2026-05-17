@@ -67,7 +67,7 @@ llm:
   base_url: "http://localhost:11434"
   temperature: 0.1
   max_tokens: 1024
-  request_timeout: 60
+  request_timeout: 300
 
 # ------------------------------------------------------------
 # Query rewriting

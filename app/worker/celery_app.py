@@ -25,6 +25,7 @@ def create_celery_app() -> Celery:
         task_time_limit=cfg.task_time_limit,
         task_soft_time_limit=cfg.task_soft_time_limit,
         worker_prefetch_multiplier=1,   # one task at a time — embedding is heavy
+        worker_pool="solo",             # M1 MPS fix: no forking, runs in-process
         task_acks_late=True,            # ack only after task completes (safer)
         timezone="UTC",
         broker_connection_retry_on_startup=True,
