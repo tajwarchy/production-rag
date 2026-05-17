@@ -1,0 +1,34 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
+
+# Same deps as api — shared codebase
+RUN pip install --no-cache-dir \
+    langchain==0.2.16 \
+    langchain-community==0.2.16 \
+    langchain-core==0.2.38 \
+    qdrant-client==1.11.1 \
+    sentence-transformers==3.1.1 \
+    pymupdf==1.24.10 \
+    transformers==4.44.2 \
+    pydantic==2.9.2 \
+    pydantic-settings==2.5.2 \
+    pyyaml==6.0.2 \
+    aiosqlite==0.20.0 \
+    celery==5.4.0 \
+    redis==5.0.8 \
+    tenacity==8.3.0 \
+    loguru==0.7.2 \
+    ollama==0.3.3
+
+COPY app/ ./app/
+COPY config.yaml .
+
+RUN mkdir -p data logs
+
+# --pool=solo is required on M1/MPS: prevents fork() crashes with MPS
+CMD ["celery", "-A", "app.worker.celery_app.celery_app", "worker", \
+     "--loglevel=info", "--pool=solo"]
