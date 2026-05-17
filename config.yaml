@@ -45,7 +45,7 @@ retrieval:
   top_k: 10                           # candidates fetched from Qdrant
   top_k_rerank: 4                     # chunks passed to LLM after reranking
   mmr_lambda: 0.5                     # diversity vs relevance balance (MMR)
-  score_threshold: 0.4                # minimum cosine score to include a chunk
+  score_threshold: 0.2                # minimum cosine score to include a chunk
 
 # ------------------------------------------------------------
 # Reranker (cross-encoder)
